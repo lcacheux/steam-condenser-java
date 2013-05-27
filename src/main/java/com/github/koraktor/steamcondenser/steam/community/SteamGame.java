@@ -40,6 +40,10 @@ public class SteamGame {
 
     private String shortName;
 
+    private float recentPlayTime;
+
+    private float totalPlayTime;
+
     /**
      * Clears the game cache
      */
@@ -152,6 +156,11 @@ public class SteamGame {
             this.name  = gameData.getString("gameName");
             this.shortName = gameData.getString("gameFriendlyName").toLowerCase();
         }
+
+        if (gameData.hasElement("hoursLast2Weeks"))
+            this.recentPlayTime = gameData.getFloat("hoursLast2Weeks");
+        if (gameData.hasElement("hoursOnRecord"))
+            this.totalPlayTime = gameData.getFloat("hoursOnRecord");
 
         Pattern regex = Pattern.compile("/" + appId + "/([0-9a-f]+).jpg");
         Matcher matcher = regex.matcher(logoUrl);
@@ -285,6 +294,24 @@ public class SteamGame {
      */
     public String getShortName() {
         return this.shortName;
+    }
+
+    /**
+     * Returns the total time played for this game
+     *
+     * @return The total time played for this game, in hours
+     */
+    public float getTotalPlayTime() {
+        return totalPlayTime;
+    }
+
+    /**
+     * Returns the time played for this game in the last two weeks
+     *
+     * @return The time played for this game, in hours
+     */
+    public float getRecentPlayTime() {
+        return recentPlayTime;
     }
 
     /**
