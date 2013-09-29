@@ -7,10 +7,6 @@
 
 package com.github.koraktor.steamcondenser.steam.community;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.steam.community.css.CSSStats;
 import com.github.koraktor.steamcondenser.steam.community.defense_grid.DefenseGridStats;
@@ -19,6 +15,10 @@ import com.github.koraktor.steamcondenser.steam.community.l4d.L4D2Stats;
 import com.github.koraktor.steamcondenser.steam.community.l4d.L4DStats;
 import com.github.koraktor.steamcondenser.steam.community.portal2.Portal2Stats;
 import com.github.koraktor.steamcondenser.steam.community.tf2.TF2Stats;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class represents the game statistics for a single user and a specific
@@ -127,7 +127,7 @@ public class GameStats {
                 Matcher appIdMatcher = appIdPattern.matcher(this.xmlData.getString("game", "gameLink"));
                 appIdMatcher.find();
                 int appId = Integer.parseInt(appIdMatcher.group(1));
-                this.game = SteamGame.create(appId, this.xmlData.getElement("game"));
+                this.game = SteamGame.reload(appId, this.xmlData.getElement("game"));
                 this.hoursPlayed = this.xmlData.getString("stats", "hoursPlayed");
             }
         } catch(Exception e) {

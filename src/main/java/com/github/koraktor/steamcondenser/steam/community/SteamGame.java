@@ -7,6 +7,12 @@
 
 package com.github.koraktor.steamcondenser.steam.community;
 
+import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
+import com.github.koraktor.steamcondenser.exceptions.WebApiException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,12 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
-import com.github.koraktor.steamcondenser.exceptions.WebApiException;
 
 /**
  * This class represents a game available on Steam
@@ -102,6 +102,21 @@ public class SteamGame {
         } else {
             return new SteamGame(appId, gameData);
         }
+    }
+
+    /**
+     * Creates a new or cached instance of the game specified by the given XML
+     * data
+     *
+     * @param appId The application ID of the game
+     * @param gameData The XML data of the game
+     * @return The game instance for the given data
+     * @see SteamGame#SteamGame
+     */
+    public static SteamGame reload(int appId, XMLData gameData) {
+        SteamGame game = new SteamGame(appId, gameData);
+        games.put(appId, game);
+        return game;
     }
 
     /**
