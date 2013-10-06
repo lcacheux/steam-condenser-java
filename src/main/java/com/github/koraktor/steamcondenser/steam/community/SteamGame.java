@@ -187,6 +187,15 @@ public class SteamGame {
     }
 
     /**
+     * Initialize a new empty game, without data except appId
+     *
+     * @param appId The application ID of the game
+     */
+    public SteamGame(int appId) {
+        this.appId = appId;
+    }
+
+    /**
      * Returns the Steam application ID of this game
      *
      * @return The Steam application ID of this game
@@ -373,6 +382,17 @@ public class SteamGame {
     public boolean isUpToDate(int version)
             throws JSONException, SteamCondenserException {
         return SteamGame.isUpToDate(this.appId, version);
+    }
+
+    /**
+     * Optionally load the icon URL from the community, if not
+     * available from stats (for games without achievements)
+     *
+     * @throws SteamCondenserException
+     */
+    public void loadFromCommunity() throws SteamCondenserException {
+        HtmlData data = new HtmlData("http://steamcommunity.com/app/" + this.appId);
+        this.iconUrl = data.getIconUrl();
     }
 
 }
